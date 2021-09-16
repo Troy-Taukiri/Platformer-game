@@ -34,7 +34,7 @@ PLAYER_START_Y = 250
 
 # bullet size
 SPRITE_SCALING_LASER = 10
-BULLET_SPEED = 2
+BULLET_SPEED = 1
 
 def load_texture_pair(filename):
     """
@@ -136,16 +136,17 @@ class MyGame(arcade.Window):
                 # --- Load Textures ---
 
                 # Images from Kenney.nl's Asset Pack 3
-                main_path = "Platformer Game/platform_tutorial/images/player_1/dude"
+                main_path = "images/player_1/dude"
 
                 # Load textures for idle standing
+
                 self.idle_texture_pair = load_texture_pair(f"{main_path}_idle.png")
                 self.jump_texture_pair = load_texture_pair(f"{main_path}_jump.png")
                 self.fall_texture_pair = load_texture_pair(f"{main_path}_fall.png")
 
                 # Load textures for walking
                 self.walk_textures = []
-                for i in range(8):
+                for i in range(2):
                     texture = load_texture_pair(f"{main_path}_walk{i}.png")
                     self.walk_textures.append(texture)
 
@@ -207,49 +208,23 @@ class MyGame(arcade.Window):
         self.player_sprite = PlayerCharacter()
         self.player_sprite.center_x = PLAYER_START_X
         self.player_sprite.center_y = PLAYER_START_Y
-        self.scene.add_sprite(LAYER_NAME_PLAYER, self.player_sprite)
 
-        enemy = arcade.Sprite(":resources:images/space_shooter/playerShip1_green.png", 0.5)
+
+        enemy = arcade.Sprite("images/Tiled stuff/shark.png", 0.5)
         enemy.center_x = 120
         enemy.center_y = SCREEN_HEIGHT - enemy.height
         enemy.angle = 180
         self.enemy_list.append(enemy)
 
-        enemy = arcade.Sprite(":resources:images/space_shooter/playerShip1_green.png", 0.5)
-        enemy.center_x = 220
-        enemy.center_y = SCREEN_HEIGHT - enemy.height
-        enemy.angle = 180
-        self.enemy_list.append(enemy)
 
-        enemy = arcade.Sprite(":resources:images/space_shooter/playerShip1_green.png", 0.5)
-        enemy.center_x = 320
-        enemy.center_y = SCREEN_HEIGHT - enemy.height
-        enemy.angle = 180
-        self.enemy_list.append(enemy)
 
-        enemy = arcade.Sprite(":resources:images/space_shooter/playerShip1_green.png", 0.5)
-        enemy.center_x = SCREEN_WIDTH - -1500
-        enemy.center_y = SCREEN_HEIGHT - enemy.height
-        enemy.angle = 180
-        self.enemy_list.append(enemy)
-
-        enemy = arcade.Sprite(":resources:images/space_shooter/playerShip1_green.png", 0.5)
-        enemy.center_x = SCREEN_WIDTH - -1600
-        enemy.center_y = SCREEN_HEIGHT - enemy.height
-        enemy.angle = 180
-        self.enemy_list.append(enemy)
-
-        enemy = arcade.Sprite(":resources:images/space_shooter/playerShip1_green.png", 0.5)
+        enemy = arcade.Sprite("images/Tiled stuff/shark.png", 0.5)
         enemy.center_x = SCREEN_WIDTH - -1700
         enemy.center_y = SCREEN_HEIGHT - enemy.height
         enemy.angle = 180
         self.enemy_list.append(enemy)
 
-        enemy = arcade.Sprite(":resources:images/space_shooter/playerShip1_green.png", 0.5)
-        enemy.center_x = SCREEN_WIDTH - -1700
-        enemy.center_y = SCREEN_HEIGHT - enemy.height
-        enemy.angle = 180
-        self.enemy_list.append(enemy)
+
 
         # --- Load in a map from the tiled editor ---
 
@@ -336,7 +311,7 @@ class MyGame(arcade.Window):
 
     # bullet
     def on_mouse_press(self, x, y, button, modifiers):
-        bullet = arcade.Sprite(":resources:images/space_shooter/laserBlue01.png", SPRITE_SCALING_LASER)
+        bullet = arcade.Sprite("images/Tiled stuff/Fireball.png", SPRITE_SCALING_LASER)
         start_x = self.player_sprite.center_x
         start_y = self.player_sprite.center_y
         bullet.center_x = start_x + 25
@@ -391,12 +366,9 @@ class MyGame(arcade.Window):
             self.process_keychange()
         else:
             self.player_sprite.is_on_ladder = False
-            self.process_keychange()
 
-        # Update Animations
-        self.scene.update_animation(
-            delta_time, [LAYER_NAME_COINS, LAYER_NAME_BACKGROUND, LAYER_NAME_PLAYER]
-        )
+
+
 
         self.frame_count += 1
 
@@ -413,7 +385,7 @@ class MyGame(arcade.Window):
             enemy.angle = math.degrees(angle) - 90
 
             if self.frame_count % 60 == 0:
-                bullet = arcade.Sprite(":resources:images/space_shooter/laserBlue01.png")
+                bullet = arcade.Sprite("images/Tiled stuff/Fireball.png")
                 bullet.center_x = start_x
                 bullet.center_y = start_y
                 bullet.angle = math.degrees(angle)
@@ -544,4 +516,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

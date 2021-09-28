@@ -45,74 +45,7 @@ def load_texture_pair(filename):
         arcade.load_texture(filename, flipped_horizontally=True),
     ]
 
-class MyGame(arcade.Window):
-    """
-    Main application class.
-    """
-
-    def __init__(self):
-
-        # Call the parent class and set up the window
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-
-        # These are 'lists' that keep track of our sprites. Each sprite should
-        # go into a list.
-        self.frame_count = 0
-        self.coin_list = None
-        self.wall_list = None
-        self.foreground_list = None
-        self.background_list = None
-        self.dont_touch_list = None
-        self.player_list = None
-        # bullets
-        self.bullet_list = None
-        self.enemy_list = None
-
-        # Separate variable that holds the player sprite
-        self.player_sprite = None
-
-        # Our physics engine
-        self.physics_engine = None
-
-        # Used to keep track of our scrolling
-        self.view_bottom = 0
-        self.view_left = 0
-
-        # Keep track of the score
-        self.score = 0
-
-        # Where is the right edge of the map?
-        self.end_of_map = 0
-
-        # Level
-        self.level = 1
-
-        # Load sounds
-        self.collect_coin_sound = arcade.load_sound(":resources:sounds/coin1.wav")
-        self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
-        self.game_over = arcade.load_sound(":resources:sounds/gameover1.wav")
-
-
-
-    def setup(self, level):
-
-        self.view_bottom = 0
-        self.view_left = 0
-
-        # Keep track of the score
-        self.score = 0
-
-        # Create the Sprite lists
-        self.player_list = arcade.SpriteList()
-        self.foreground_list = arcade.SpriteList()
-        self.background_list = arcade.SpriteList()
-        self.wall_list = arcade.SpriteList()
-        self.coin_list = arcade.SpriteList()
-        # bullets
-        self.bullet_list = arcade.SpriteList()
-        self.enemy_list = arcade.SpriteList()
-
-        # Set up the player, specifically placing it at these coordinates.
+# Set up the player, specifically placing it at these coordinates.
         class PlayerCharacter(arcade.Sprite):
             """Player Sprite"""
 
@@ -205,6 +138,75 @@ class MyGame(arcade.Window):
                     self.cur_texture = 0
                 self.texture = self.walk_textures[self.cur_texture][self.character_face_direction]
 
+
+class MyGame(arcade.Window):
+    """
+    Main application class.
+    """
+
+    def __init__(self):
+
+        # Call the parent class and set up the window
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+
+        # These are 'lists' that keep track of our sprites. Each sprite should
+        # go into a list.
+        self.frame_count = 0
+        self.coin_list = None
+        self.wall_list = None
+        self.foreground_list = None
+        self.background_list = None
+        self.dont_touch_list = None
+        self.player_list = None
+        # bullets
+        self.bullet_list = None
+        self.enemy_list = None
+
+        # Separate variable that holds the player sprite
+        self.player_sprite = None
+
+        # Our physics engine
+        self.physics_engine = None
+
+        # Used to keep track of our scrolling
+        self.view_bottom = 0
+        self.view_left = 0
+
+        # Keep track of the score
+        self.score = 0
+
+        # Where is the right edge of the map?
+        self.end_of_map = 0
+
+        # Level
+        self.level = 1
+
+        # Load sounds
+        self.collect_coin_sound = arcade.load_sound(":resources:sounds/coin1.wav")
+        self.jump_sound = arcade.load_sound(":resources:sounds/jump1.wav")
+        self.game_over = arcade.load_sound(":resources:sounds/gameover1.wav")
+
+
+
+    def setup(self, level):
+
+        self.view_bottom = 0
+        self.view_left = 0
+
+        # Keep track of the score
+        self.score = 0
+
+        # Create the Sprite lists
+        self.player_list = arcade.SpriteList()
+        self.foreground_list = arcade.SpriteList()
+        self.background_list = arcade.SpriteList()
+        self.wall_list = arcade.SpriteList()
+        self.coin_list = arcade.SpriteList()
+        # bullets
+        self.bullet_list = arcade.SpriteList()
+        self.enemy_list = arcade.SpriteList()
+
+        
         self.player_sprite = PlayerCharacter()
         self.player_sprite.center_x = PLAYER_START_X
         self.player_sprite.center_y = PLAYER_START_Y
@@ -295,7 +297,6 @@ class MyGame(arcade.Window):
         # Draw our sprites
         self.wall_list.draw()
         self.background_list.draw()
-        self.wall_list.draw()
         self.coin_list.draw()
         self.dont_touch_list.draw()
         self.player_list.draw()
@@ -516,3 +517,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

@@ -16,7 +16,7 @@ SPRITE_PIXEL_SIZE = 128
 GRID_PIXEL_SIZE = (SPRITE_PIXEL_SIZE * TILE_SCALING)
 
 # Movement speed of player, in pixels per frame
-PLAYER_MOVEMENT_SPEED = 20
+PLAYER_MOVEMENT_SPEED = 5
 GRAVITY = 0.3
 PLAYER_JUMP_SPEED = 15
 
@@ -24,8 +24,8 @@ RIGHT_FACING = 0
 LEFT_FACING = 1
 # How many pixels to keep as a minimum margin between the character
 # and the edge of the screen.
-LEFT_VIEWPORT_MARGIN = 200
-RIGHT_VIEWPORT_MARGIN = 200
+LEFT_VIEWPORT_MARGIN = 125
+RIGHT_VIEWPORT_MARGIN = 300
 BOTTOM_VIEWPORT_MARGIN = 150
 TOP_VIEWPORT_MARGIN = 100
 
@@ -100,6 +100,7 @@ class PlayerCharacter(arcade.Sprite):
 
     def update_animation(self, delta_time: float = 1 / 60):
 
+
         # Figure out if we need to flip face left or right
         if self.change_x < 0 and self.character_face_direction == RIGHT_FACING:
             self.character_face_direction = LEFT_FACING
@@ -113,7 +114,7 @@ class PlayerCharacter(arcade.Sprite):
             self.climbing = False
         if self.climbing and abs(self.change_y) > 1:
             self.cur_texture += 1
-            if self.cur_texture > 7:
+            if self.cur_texture > 2:
                 self.cur_texture = 0
         if self.climbing:
             self.texture = self.climbing_textures[self.cur_texture // 4]
@@ -133,10 +134,13 @@ class PlayerCharacter(arcade.Sprite):
             return
 
         # Walking animation
-        self.cur_texture += 1
-        if self.cur_texture > 7:
+        self.cur_texture += 3
+        if self.cur_texture > 1:
             self.cur_texture = 0
-        self.texture = self.walk_textures[self.cur_texture][self.character_face_direction]
+        self.texture = self.walk_textures[self.cur_texture][
+            self.character_face_direction
+        ]
+
 
 
 class MyGame(arcade.Window):
@@ -220,6 +224,7 @@ class MyGame(arcade.Window):
         self.player_sprite = PlayerCharacter()
         self.player_sprite.center_x = PLAYER_START_X
         self.player_sprite.center_y = PLAYER_START_Y
+        self.player_list.append(self.player_sprite)
 
 
         enemy = arcade.Sprite("images/Tiled stuff/shark.png", 0.5)
@@ -411,6 +416,7 @@ class MyGame(arcade.Window):
         """ Movement and game logic """
 
         # Move the player with the physics engine
+        self.player_list.update_animation()
         self.physics_engine.update()
         # Update animations
         if self.physics_engine.can_jump():
@@ -563,49 +569,6 @@ class MyGame(arcade.Window):
                                 self.view_bottom,
                                 SCREEN_HEIGHT + self.view_bottom)
 
-    def update_animation(self, delta_time: float = 1 / 60):
-
-        # Figure out if we need to flip face left or right
-        if self.change_x < 0 and self.character_face_direction == RIGHT_FACING:
-            self.character_face_direction = LEFT_FACING
-        elif self.change_x > 0 and self.character_face_direction == LEFT_FACING:
-            self.character_face_direction = RIGHT_FACING
-
-        # Climbing animation
-        if self.is_on_ladder:
-            self.climbing = True
-        if not self.is_on_ladder and self.climbing:
-            self.climbing = False
-        if self.climbing and abs(self.change_y) > 1:
-            self.cur_texture += 1
-            if self.cur_texture > 7:
-                self.cur_texture = 0
-        if self.climbing:
-            self.texture = self.climbing_textures[self.cur_texture // 4]
-            return
-
-        # Jumping animation
-        if self.change_y > 0 and not self.is_on_ladder:
-            self.texture = self.jump_texture_pair[self.character_face_direction]
-            return
-        elif self.change_y < 0 and not self.is_on_ladder:
-            self.texture = self.fall_texture_pair[self.character_face_direction]
-            return
-
-        # Idle animation
-        if self.change_x == 0:
-            self.texture = self.idle_texture_pair[self.character_face_direction]
-            return
-
-        # Walking animation
-        self.cur_texture += 1
-        if self.cur_texture > 7:
-            self.cur_texture = 0
-        self.texture = self.walk_textures[self.cur_texture][
-            self.character_face_direction
-        ]
-
-
 def main():
     """ Main method """
     window = MyGame()
@@ -615,3 +578,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

@@ -53,7 +53,7 @@ class PlayerCharacter(arcade.Sprite):
 
         # Set up parent class
         super().__init__()
-
+        
         # Default to face-right
         self.character_face_direction = RIGHT_FACING
 
